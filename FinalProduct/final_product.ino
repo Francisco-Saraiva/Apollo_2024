@@ -38,10 +38,6 @@ float max_freq_value = 0;
 
 double scaling_factor = 0.001;  // used to prevent overflow in the FFT
 
-// Time variables to count execution time
-unsigned long start_time;
-unsigned long end_time;
-unsigned long total_time;
 
 // ~~~~~~~ FUNCTIONS ~~~~~~~~
 
@@ -409,7 +405,6 @@ void loop() {
     counter++;
 
     if (counter == BUFFER_SIZE){
-      start_time = micros();     // comment
 
       // FILTERING
       int new_size = FIR_Lowpass(signalLow, signalBuffer);
@@ -441,10 +436,6 @@ void loop() {
       else {
         LightUpRed();
       }
-
-      end_time = micros();
-      total_time = end_time - start_time;
-      Serial.println(total_time);
     }
   }
 }
