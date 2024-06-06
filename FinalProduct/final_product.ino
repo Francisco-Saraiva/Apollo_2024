@@ -411,10 +411,10 @@ void loop() {
       Notch_Filter(signalNotch, signalLow, new_size, 50);
       scale_signal(signalNotch, new_size, scaling_factor);
 
+      // FEATURE EXTRACTION
       int code = FFT(frequencies, freq_amps, signalNotch, new_size, num_bins, SAMPLING_FREQ);
       cut_and_glue(signalBuffer, BUFFER_SIZE, FFT_WINDOW_SIZE);  // For a sliding FFT
 
-      // FEATURE EXTRACTION
       find_indices(frequencies, beta_freqs, fft_sz, MIN_BETA, MAX_BETA);
       beta_size = beta_freqs[1] - beta_freqs[0] + 1;
       beta_freq_amps = new float[beta_size];
@@ -422,13 +422,8 @@ void loop() {
       Subvector(beta_freq_amps, beta_size, freq_amps, beta_freqs[0]);
       max_freq_value = Max(beta_freq_amps, beta_size);
 
-      int max_idx = Max_idx(freq_amps, fft_sz);
-      float max_freq = frequencies[max_idx];
-
       // PRINTS AND RESETS
       counter = counter - FFT_WINDOW_SIZE;
-
-      //Serial.println(max_freq_value);
 
       if (max_freq_value > THRESHOLD){
         LightUpGreen();
